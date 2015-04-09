@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import gnu.io.*;
+import javax.comm.*;//32∫Ò∆Æ
 
 public class SimpleWrite {
 	static Enumeration portList;
@@ -15,7 +15,7 @@ public class SimpleWrite {
         while (portList.hasMoreElements()) {
             portId = (CommPortIdentifier) portList.nextElement();
             if (portId.getPortType() == 						      CommPortIdentifier.PORT_SERIAL) {
-                if (portId.getName().equals("COM17")) {
+                if (portId.getName().equals("COM6")) {
                 //if (portId.getName().equals("/dev/term/a")) {
                     try {
                         serialPort = (SerialPort)

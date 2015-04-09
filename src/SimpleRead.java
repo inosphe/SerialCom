@@ -1,7 +1,6 @@
 import java.io.*;
 import java.util.*;
-//import javax.comm.*;//32비트
-import gnu.io.*;
+import javax.comm.*;//32비트
 
 public class SimpleRead implements Runnable, SerialPortEventListener {
     static CommPortIdentifier portId;
@@ -22,7 +21,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             // 가져온 객체의 port type 이 serial port 이면
             if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                 
-            	if (portId.getName().equals("COM6")) {
+            	if (portId.getName().equals("COM5")) {
 
                     // Linux 의 경우
                     //if (portId.getName().equals("/dev/term/a"))
@@ -40,7 +39,7 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
                public CommPort open(java.lang.String appname, int timeout)
                기능 : 
                어플리케이션 이름과 타임아웃 시간 명시 */
-            serialPort = (SerialPort) portId.open("SimpleReadApp", 2000);
+            serialPort = (SerialPort) portId.open("SimpleReadApp", 10000);
         } catch (PortInUseException e) { }
         try {
             // 시리얼 포트에서 입력 스트림을 획득한다.
@@ -89,14 +88,15 @@ public class SimpleRead implements Runnable, SerialPortEventListener {
             // 데이터가 도착하면
             case SerialPortEvent.DATA_AVAILABLE:
                 byte[] readBuffer = new byte[20];    // byte 배열 객체 생성
+                int numBytes = 0;
 
                 // 입력 스트림이 사용가능하면, 버퍼로 읽어 들인 후
                 // String 객체로 변환하여 출력
                 try {
                     while (inputStream.available() > 0) {
-                        int numBytes = 							    inputStream.read(readBuffer);
+                        numBytes = 							    inputStream.read(readBuffer);
                     }
-                    System.out.print(new String(readBuffer));
+                    System.out.print(new String(readBuffer, 0, numBytes));
                 } catch (IOException e) { }
                 break;
             }
